@@ -93,75 +93,85 @@ export default class CreateUser extends Component {
     render() {
         const { formErrors } = this.state;
         return (
-            <div className="row">
-                <div className="col-md-4">
-                    <div className="card card-body">
-                        <h3>Create New User</h3>
+
+
+            <div className="d-flex justify-content-center">
+                <div>
+                    <h3>Create New User</h3>
+                    <div>
                         <form onSubmit={this.onSubmit} noValidate>
-                            <div className="name">
+                            <div className="name form-group">
                                 <label htmlFor="name">Name</label>
-                                <input
-                                    className={formErrors.name.length > 0 ? "error" : null}
-                                    placeholder="First Name"
-                                    type="text"
-                                    name="name"
-                                    noValidate
-                                    onChange={this.onInputChange}
-                                />
+                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <input
+                                        className={formErrors.name.length > 0 ? "error" : null}
+                                        placeholder="Name"
+                                        type="text"
+                                        name="name"
+                                        noValidate
+                                        onChange={this.onInputChange}
+                                    />
+                                </div>
                                 {formErrors.name.length > 0 && (
-                                    <span className="errorMessage">{formErrors.name}</span>
+                                    <small id="emailHelp" className="errorMessage form-text text-muted">{formErrors.name}</small>
                                 )}
                             </div>
-                            <div className="tel">
+
+                            <div className="tel form-group">
                                 <label htmlFor="tel">Tel</label>
-                                <input
-                                    className={formErrors.tel.length > 0 ? "error" : null}
-                                    placeholder="Last Name"
-                                    type="text"
-                                    name="tel"
-                                    noValidate
-                                    onChange={this.onInputChange}
-                                />
+                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <input
+                                        className={formErrors.tel.length > 0 ? "error" : null}
+                                        placeholder="Last Name"
+                                        type="text"
+                                        name="tel"
+                                        noValidate
+                                        onChange={this.onInputChange}
+                                    />
+                                </div>
                                 {formErrors.tel.length > 0 && (
-                                    <span className="errorMessage">{formErrors.tel}</span>
+                                    <small id="emailHelp" className="errorMessage form-text text-muted">{formErrors.tel}</small>
                                 )}
                             </div>
-                            <div className="email">
+                            <div className="email form-group">
                                 <label htmlFor="email">Email</label>
-                                <input
-                                    className={formErrors.email.length > 0 ? "error" : null}
-                                    placeholder="Email"
-                                    type="email"
-                                    name="email"
-                                    noValidate
-                                    onChange={this.onInputChange}
-                                />
+                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <input
+                                        className={formErrors.email.length > 0 ? "error" : null}
+                                        placeholder="Email"
+                                        type="email"
+                                        name="email"
+                                        noValidate
+                                        onChange={this.onInputChange}
+                                    />
+                                </div>
+
                                 {formErrors.email.length > 0 && (
-                                    <span className="errorMessage">{formErrors.email}</span>
+                                    <small id="emailHelp" className="errorMessage form-text text-muted">{formErrors.email}</small>
                                 )}
                             </div>
-                            <div className="password">
+                            <div className="password form-group">
                                 <label htmlFor="password">Password</label>
-                                <input
-                                    className={formErrors.password.length > 0 ? "error" : null}
-                                    placeholder="Password"
-                                    type="password"
-                                    name="password"
-                                    noValidate
-                                    onChange={this.onInputChange}
-                                />
+                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <input
+                                        className={formErrors.password.length > 0 ? "error" : null}
+                                        placeholder="Password"
+                                        type="password"
+                                        name="password"
+                                        noValidate
+                                        onChange={this.onInputChange}
+                                    />
+                                </div>
                                 {formErrors.password.length > 0 && (
-                                    <span className="errorMessage">{formErrors.password}</span>
+                                    <small id="emailHelp" className="errorMessage form-text text-muted">{formErrors.password}</small>
                                 )}
                             </div>
                             <div className="createAccount">
-                                <button type="submit">Create Account</button>
-                                <small>Already Have an Account?</small>
+                                <button type="submit" className="btn btn-primary">Create Account</button>
                             </div>
                         </form>
                     </div>
                 </div>
-
             </div>
         )
     }
