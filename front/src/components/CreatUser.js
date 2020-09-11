@@ -49,6 +49,8 @@ export default class CreateUser extends Component {
                 email: this.state.email,
                 tel: this.state.tel,
                 password: this.state.password
+            }).then((a) => {
+                console.log(a.data)
             });
         } else {
             console.error("FORM INVALID - DISPLAY ERROR MESSAGE");

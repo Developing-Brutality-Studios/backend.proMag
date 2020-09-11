@@ -10,9 +10,23 @@ UsersCtrl.getUsers = async (req, res) => {
 UsersCtrl.createUser = async ( req, res) => {
     const {name, email, tel, password } = req.body;
     const newUser = new User({name, email, tel, password});
-    console.log(newUser);
-    await newUser.save();
-   res.json({message: 'Notes save'})
+    User.find({ email: email }, (err, a) => {
+        if(a.length > 0){
+            console.log("Error email")
+        } else{
+            User.find({tel:tel}, async (err,l) =>{
+                if(l.length > 0){
+                    console.log('error tel')
+                } else {
+                    await newUser.save();
+                    console.log("new user")
+                }
+            })
+        }
+
+    })
+  //  
+   
 }
 
 UsersCtrl.getUser = async (req, res) => {
