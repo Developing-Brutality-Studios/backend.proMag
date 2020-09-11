@@ -26,7 +26,7 @@ export default class CreateUser extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = {           
             name: null,
             tel: null,
             email: null,
@@ -50,7 +50,10 @@ export default class CreateUser extends Component {
                 tel: this.state.tel,
                 password: this.state.password
             }).then((a) => {
-                console.log(a.data)
+                const resp = JSON.stringify(a.data.m) 
+              //  eslint-disable-next-line 
+                resp == 1 ? window.location.href = '/' : window.alert(resp)
+                
             });
         } else {
             console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
@@ -124,7 +127,7 @@ export default class CreateUser extends Component {
                                 <div id="exampleInputEmail1" aria-describedby="emailHelp">
                                     <input
                                         className={formErrors.tel.length > 0 ? "error" : null}
-                                        placeholder="Last Name"
+                                        placeholder="tel"
                                         type="text"
                                         name="tel"
                                         noValidate

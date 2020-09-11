@@ -12,14 +12,14 @@ UsersCtrl.createUser = async ( req, res) => {
     const newUser = new User({name, email, tel, password});
     User.find({ email: email }, (err, a) => {
         if(a.length > 0){
-            console.log("Error email")
+            res.json({m: "Email registrado"})
         } else{
             User.find({tel:tel}, async (err,l) =>{
                 if(l.length > 0){
-                    console.log('error tel')
+                    res.json({m:"Tel registrado"})
                 } else {
                     await newUser.save();
-                    console.log("new user")
+                    res.json({m : 1})
                 }
             })
         }
