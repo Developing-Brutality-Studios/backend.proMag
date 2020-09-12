@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { Component } from 'react';
+import axios from 'axios';
+import  GoogleLogin from 'react-google-login';
 
 const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -26,7 +27,7 @@ export default class CreateUser extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {           
+        this.state = {
             name: null,
             tel: null,
             email: null,
@@ -39,7 +40,21 @@ export default class CreateUser extends Component {
             }
         };
     }
+    loginGoogel = async (res) => {        
+        const newUser = res.profileObj;
+            await axios.post('http://localhost:4000/api/users', {
+                name: newUser.name,
+                email: newUser.email,
+                tel: '',
+                password: newUser.googleId
+            }).then((a) => {
+                const resp = JSON.stringify(a.data.m)
+                //  eslint-disable-next-line 
+                resp == 1 ? window.location.href = '/' : window.alert(resp)
 
+            });      
+
+    }
 
     onSubmit = async (e) => {
         e.preventDefault();
@@ -50,10 +65,10 @@ export default class CreateUser extends Component {
                 tel: this.state.tel,
                 password: this.state.password
             }).then((a) => {
-                const resp = JSON.stringify(a.data.m) 
-              //  eslint-disable-next-line 
+                const resp = JSON.stringify(a.data.m)
+                //  eslint-disable-next-line 
                 resp == 1 ? window.location.href = '/' : window.alert(resp)
-                
+
             });
         } else {
             console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
@@ -174,6 +189,14 @@ export default class CreateUser extends Component {
                             <div className="createAccount">
                                 <button type="submit" className="btn btn-primary">Create Account</button>
                             </div>
+                            <br />
+                            <GoogleLogin
+                                clientId="145201608562-9kvft5rbv8ea10rifipqcfralcg81fit.apps.googleusercontent.com"
+                                buttonText="Login"
+                                onSuccess={this.loginGoogel}
+                                onFailure={this.loginGoogel}
+                                cookiePolicy={'single_host_origin'}
+                            />
                         </form>
                     </div>
                 </div>
