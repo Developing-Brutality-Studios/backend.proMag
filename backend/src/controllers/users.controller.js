@@ -10,6 +10,7 @@ UsersCtrl.getUsers = async (req, res) => {
 UsersCtrl.createUser = async ( req, res) => {
     const {name, email, tel, password } = req.body;
     const newUser = new User({name, email, tel, password});
+    
     User.find({ email: email }, (err, a) => {
         if(a.length > 0){
             res.json({m: "Email registrado"})
