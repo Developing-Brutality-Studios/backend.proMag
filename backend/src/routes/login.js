@@ -1,15 +1,36 @@
 const { Router } = require('express');
 const router = Router();
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const verifyToken = require('./verifyToken')
 
 router.post('/', async (req, res) => {
- 
-  const { email, password } = req.body;
-
-  User.find({$and : [{email:email}, {password:password}]}, (err, a) =>{
-    a.length < 1 ? 
-    res.json({m: "usuario no encontrado"}) : res.json({a})
-  })      
-
+  const user = await User.findOne({email: req.body.email})
+  if(!user) {
+      return res.status(404).send("The email doesn't exists")
+  }
+  const validPassword = await user.comparePassword(req.body.password, user.password);
+  if (!validPassword) {
+      return res.status(401).send({auth: false, token: null});
+  }
+  const token = jwt.sign({id: user._id}, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: 60 * 60 * 24
+  });
+  res.status(200).json({auth: true, token});
 });
+
+router.get('/me', verifyToken, async (req, res) => {
+  // res.status(200).send(decoded);
+  // Search the Info base on the ID 
+  const user = await User.findById(req.userId, { password: 0});
+  if (!user) {
+      return res.status(404).send("No user found.");
+  }
+  res.status(200).json(user);
+});
+
+router.get('/logout', function(req, res) {
+  res.status(200).send({ auth: false, token: null });
+});
+
 module.exports = router;

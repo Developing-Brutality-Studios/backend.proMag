@@ -11,7 +11,7 @@ UsersCtrl.createUser = async ( req, res) => {
     const {name, email, tel, password } = req.body;
     const newUser = new User({name, email, tel, password});
     
-    User.find({ email: email }, (err, a) => {
+    User.find({ email: email }, async (err, a) => {
         if(a.length > 0){
             res.json({m: "Email registrado"})
         } else{
@@ -19,6 +19,7 @@ UsersCtrl.createUser = async ( req, res) => {
                 if(l.length > 0){
                     res.json({m:"Tel registrado"})
                 } else {
+                    newUser.password = await newUser.encryptPassword(password);
                     await newUser.save();
                     res.json({m : 1})
                 }
