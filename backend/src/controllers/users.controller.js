@@ -8,22 +8,15 @@ UsersCtrl.getUsers = async (req, res) => {
 }
 
 UsersCtrl.createUser = async ( req, res) => {
-    const {name, email, tel, password } = req.body;
-    const newUser = new User({name, email, tel, password});
-    
-    User.find({ email: email }, async (err, a) => {
+    const {name, email, tel, password, googel } = req.body;
+    const newUser = new User({name, email, tel, password, googel});
+    newUser.password = await newUser.encryptPassword(password);
+    User.find({ email: email },async (err, a) => {
         if(a.length > 0){
             res.json({m: "Email registrado"})
         } else{
-            User.find({tel:tel}, async (err,l) =>{
-                if(l.length > 0){
-                    res.json({m:"Tel registrado"})
-                } else {
-                    newUser.password = await newUser.encryptPassword(password);
-                    await newUser.save();
-                    res.json({m : 1})
-                }
-            })
+            await newUser.save();
+            res.json({m : 1})
         }
 
     })

@@ -17,31 +17,57 @@ export default class Login extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-        e.preventDefault();
+        e.preventDefault();        
     }
     
     loginGoogel = async (res) => {        
-        const newUser = res.profileObj;
-            await axios.post('http://localhost:4000/api/users', {
-                name: newUser.name,
-                email: newUser.email,
-                tel: '',
-                password: newUser.googleId
-            }).then((a) => {
-                const resp = JSON.stringify(a.data.m)
+        const user = res.profileObj;
+            await axios.post('http://localhost:4000/api/login', {
+                email: user.email,                
+                password: user.googleId
+            }).then( async (a) => {       
+               // const resp = JSON.stringify(a.data.err)
                 //  eslint-disable-next-line 
-                resp == 1 ? window.location.href = '/' : window.alert(resp)
+                if(a.data.err == true ){
+                    const newUser = res.profileObj;
+                    await axios.post('http://localhost:4000/api/users', {
+                        name: newUser.name,
+                        email: newUser.email,
+                        tel: newUser.email,                        
+                        password: newUser.googleId,
+                        googel:true
+                    }).then(async (a) => {
+                        const resp = JSON.stringify(a.data.m)
+                    //  eslint-disable-next-line 
+                        if (resp == 1 ){
+                            await axios.post('http://localhost:4000/api/login', {
+                                email: user.email,                
+                                password: user.googleId
+                            }).then( async (a) => {
+                                console.log(a.data)
+                            });
+                        } else {
+                            window.alert(resp)
+                        }
+                        
 
+                    });   
+
+                } else {
+                    console.log(a.data)
+                }        
+                
             });      
 
     }
     onSubmit = async (e) =>{
         e.preventDefault();
+        
         await axios.post('http://localhost:4000/api/login', {
             email: this.state.email,
             password: this.state.password
         }).then((a) => {
-            console.log(a);
+            console.log(a.data);
         })
 
     }
@@ -62,7 +88,7 @@ export default class Login extends Component {
                                         type="email"
                                         name="email"
                                         placeholder="Email"
-                                        onChange={this.onInputChange}
+                                        onChange={this.onInputChanges}
                                     />
                                 </div>
                             </div>
@@ -74,7 +100,7 @@ export default class Login extends Component {
                                         type="password"
                                         name="password"
                                         placeholder="Password"
-                                        onChange={this.onInputChange}
+                                        onChange={this.onInputChanges}
                                     />
                                 </div>
                             </div>

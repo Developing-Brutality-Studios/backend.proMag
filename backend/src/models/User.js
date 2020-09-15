@@ -13,13 +13,15 @@ const userSchema = new Schema({
         unique: true
     },
     tel: {
-        type: String,    
-        unique: true
+       type: String            
     },
     password: {
         type: String,
         required: true,
         unique: true
+    },
+    googel:{
+        type: Boolean
     }
 }, {
     timestamps: true

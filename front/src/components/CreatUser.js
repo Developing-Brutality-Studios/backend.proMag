@@ -45,8 +45,9 @@ export default class CreateUser extends Component {
             await axios.post('http://localhost:4000/api/users', {
                 name: newUser.name,
                 email: newUser.email,
-                tel: '',
-                password: newUser.googleId
+                tel: newUser.email,
+                password: newUser.googleId,
+                googel:true
             }).then((a) => {
                 const resp = JSON.stringify(a.data.m)
                 //  eslint-disable-next-line 
@@ -63,7 +64,8 @@ export default class CreateUser extends Component {
                 name: this.state.name,
                 email: this.state.email,
                 tel: this.state.tel,
-                password: this.state.password
+                password: this.state.password,
+                googel:false
             }).then((a) => {
                 const resp = JSON.stringify(a.data.m)
                 //  eslint-disable-next-line 
@@ -122,7 +124,7 @@ export default class CreateUser extends Component {
                         <form onSubmit={this.onSubmit} noValidate>
                             <div className="name form-group">
                                 <label htmlFor="name">Name</label>
-                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <div >
                                     <input
                                         className={formErrors.name.length > 0 ? "error" : null}
                                         placeholder="Name"
@@ -139,7 +141,7 @@ export default class CreateUser extends Component {
 
                             <div className="tel form-group">
                                 <label htmlFor="tel">Tel</label>
-                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <div >
                                     <input
                                         className={formErrors.tel.length > 0 ? "error" : null}
                                         placeholder="tel"
@@ -155,7 +157,7 @@ export default class CreateUser extends Component {
                             </div>
                             <div className="email form-group">
                                 <label htmlFor="email">Email</label>
-                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <div >
                                     <input
                                         className={formErrors.email.length > 0 ? "error" : null}
                                         placeholder="Email"
@@ -172,7 +174,7 @@ export default class CreateUser extends Component {
                             </div>
                             <div className="password form-group">
                                 <label htmlFor="password">Password</label>
-                                <div id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <div >
                                     <input
                                         className={formErrors.password.length > 0 ? "error" : null}
                                         placeholder="Password"
