@@ -1,6 +1,8 @@
 const UsersCtrl = {};
-
+const jwt = require('jsonwebtoken');
+const { formatWithOptions } = require('util');
 const User = require('../models/User');
+
 
 UsersCtrl.getUsers = async (req, res) => {
     const users =  await User.find();
@@ -25,7 +27,8 @@ UsersCtrl.createUser = async ( req, res) => {
 }
 
 UsersCtrl.getUser = async (req, res) => {
-    const user = await User.findById(req.params.id);    
+    const decoded =  await jwt.verify(req.params.id, process.env.ACCESS_TOKEN_SECRET)
+    const user = await User.findById(decoded.id );    
     res.json({user});
 };
 

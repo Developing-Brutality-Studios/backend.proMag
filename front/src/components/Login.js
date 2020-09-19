@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import  GoogleLogin from 'react-google-login';
 
+
 export default class Login extends Component {
 
     constructor(props){
@@ -10,7 +11,8 @@ export default class Login extends Component {
         this.state = {
 
             email: "",
-            password: ""
+            password: "",
+            login: false
         }
     }
     onInputChanges = (e) =>{
@@ -44,7 +46,8 @@ export default class Login extends Component {
                                 email: user.email,                
                                 password: user.googleId
                             }).then( async (a) => {
-                                console.log(a.data)
+                                localStorage.setItem('Authorized', a.data.token);
+                                this.setState({login:true})
                             });
                         } else {
                             window.alert(resp)
@@ -54,7 +57,8 @@ export default class Login extends Component {
                     });   
 
                 } else {
-                    console.log(a.data)
+                    localStorage.setItem('Authorized', a.data.token);
+                    this.setState({login:true})
                 }        
                 
             });      
@@ -67,13 +71,12 @@ export default class Login extends Component {
             email: this.state.email,
             password: this.state.password
         }).then((a) => {
-            console.log(a.data);
+            localStorage.setItem('Authorized', a.data.token);
         })
 
     }
 
-    render() {
-        
+    render() {       
         return (
             <div className="d-flex justify-content-center">
                 <div>

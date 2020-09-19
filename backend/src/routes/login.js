@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const verifyToken = require('./verifyToken')
+
 
 router.post('/', async (req, res) => {
   const user = await User.findOne({email: req.body.email})
@@ -19,10 +19,10 @@ router.post('/', async (req, res) => {
   res.status(200).json({err: false, auth: true, token});
 });
 
-router.get('/me', verifyToken, async (req, res) => {
-  // res.status(200).send(decoded);
-  // Search the Info base on the ID 
+router.get('/me:token', verifyToken, async (req, res) => {
+
   const user = await User.findById(req.userId, { password: 0});
+  console.log(user);
   if (!user) {
       return res.status(404).send("No user found.");
   }
