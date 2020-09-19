@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
   res.status(200).json({err: false, auth: true, token});
 });
 
-router.get('/me:token', verifyToken, async (req, res) => {
+router.get('/me:token',  async (req, res) => {
 
   const user = await User.findById(req.userId, { password: 0});
   console.log(user);
