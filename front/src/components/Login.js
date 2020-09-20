@@ -10,7 +10,6 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-
             email: "",
             password: "",
             login: false
@@ -75,7 +74,7 @@ export default class Login extends Component {
         }).then((a) => {
             localStorage.setItem('Authorized', a.data.token);
             this.setState({login:true})
-            window.location.replace('');
+            window.location.replace('http://localhost:3000');
         })
 
     }

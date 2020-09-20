@@ -19,18 +19,5 @@ router.post('/', async (req, res) => {
   res.status(200).json({err: false, auth: true, token});
 });
 
-router.get('/me:token',  async (req, res) => {
-
-  const user = await User.findById(req.userId, { password: 0});
-  console.log(user);
-  if (!user) {
-      return res.status(404).send("No user found.");
-  }
-  res.status(200).json(user);
-});
-
-router.get('/logout', function(req, res) {
-  res.status(200).send({ auth: false, token: null });
-});
 
 module.exports = router;
