@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import  GoogleLogin from 'react-google-login';
+import {Redirect} from 'react-router-dom';
 
 
 export default class Login extends Component {
@@ -48,6 +49,7 @@ export default class Login extends Component {
                             }).then( async (a) => {
                                 localStorage.setItem('Authorized', a.data.token);
                                 this.setState({login:true})
+                                window.location.replace('http://localhost:3000');
                             });
                         } else {
                             window.alert(resp)
@@ -59,24 +61,29 @@ export default class Login extends Component {
                 } else {
                     localStorage.setItem('Authorized', a.data.token);
                     this.setState({login:true})
+                    window.location.replace('http://localhost:3000');
                 }        
                 
             });      
 
     }
-    onSubmit = async (e) =>{
-        e.preventDefault();
+    onSubmit = async (e) =>{       
         
         await axios.post('http://localhost:4000/api/login', {
             email: this.state.email,
             password: this.state.password
         }).then((a) => {
             localStorage.setItem('Authorized', a.data.token);
+            this.setState({login:true})
+            window.location.replace('');
         })
 
     }
 
     render() {       
+        if(this.state.login){
+           return(<Redirect to ='create'/> )
+        }
         return (
             <div className="d-flex justify-content-center">
                 <div>

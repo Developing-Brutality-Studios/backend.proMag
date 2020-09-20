@@ -1,6 +1,6 @@
 const UsersCtrl = {};
 const jwt = require('jsonwebtoken');
-const { formatWithOptions } = require('util');
+
 const User = require('../models/User');
 
 

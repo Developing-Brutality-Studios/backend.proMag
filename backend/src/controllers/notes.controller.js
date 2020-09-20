@@ -1,5 +1,7 @@
 const notesCtrl = {};
 const Note = require('../models/Note');
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 
 notesCtrl.getNotes = async (req, res) => {
@@ -7,10 +9,11 @@ notesCtrl.getNotes = async (req, res) => {
     res.json({notes});
 }
 
-notesCtrl.createNotes = async ( req, res) => {
-     const {title, content, date, author } = req.body;
-     const newNote = new Note({title, content, date, author});
-     console.log(newNote);
+notesCtrl.createNotes = async (req, res) => {
+    const aut =  await jwt.verify(req.params.id, process.env.ACCESS_TOKEN_SECRET)
+    const author= aut.id
+     const {title, content, date, grupo } = req.body;
+     const newNote = new Note({title, content, date, author, grupo});     
      await newNote.save();
     res.json({message: 'Notes save'})
 }

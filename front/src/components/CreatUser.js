@@ -48,10 +48,18 @@ export default class CreateUser extends Component {
                 tel: newUser.email,
                 password: newUser.googleId,
                 googel:true
-            }).then((a) => {
+            }).then(async (a) => {
                 const resp = JSON.stringify(a.data.m)
                 //  eslint-disable-next-line 
-                resp == 1 ? window.location.href = '/' : window.alert(resp)
+                if (resp == 1 ){ 
+                    await axios.post('http://localhost:4000/api/login', {
+                        email: newUser.email,                
+                        password: newUser.googleId
+                    }).then( async (a) => {
+                        localStorage.setItem('Authorized', a.data.token);                       
+                        window.location.replace('http://localhost:3000');
+                    });
+                } else window.alert(resp)
 
             });      
 
@@ -66,10 +74,18 @@ export default class CreateUser extends Component {
                 tel: this.state.tel,
                 password: this.state.password,
                 googel:false
-            }).then((a) => {
+            }).then(async (a) => {
                 const resp = JSON.stringify(a.data.m)
                 //  eslint-disable-next-line 
-                resp == 1 ? window.location.href = '/' : window.alert(resp)
+                if (resp == 1 ){ 
+                    await axios.post('http://localhost:4000/api/login', {
+                        email: this.state.name,                
+                        password:  this.state.password
+                    }).then( async (a) => {
+                        localStorage.setItem('Authorized', a.data.token);                        
+                        window.location.replace('http://localhost:3000');
+                    });
+                } else window.alert(resp)
 
             });
         } else {

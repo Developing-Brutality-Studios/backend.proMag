@@ -6,15 +6,19 @@ import Navigation from './components/Navigation'
 import CreateUser from './components/CreatUser'
 import CreateNote from './components/CreateNote'
 import Login from './components/Login'
+const login = localStorage.getItem("Authorized")
 
-function App() {
+function App() {   
+    var home = CreateNote ;
+
+    if (!login){
+       home = Login
+    }
+    
   return (
     <Router>
       <Navigation/>
-
-        <Route path="/"  exact component={Login}/>
-        <Route path="/edit/:id" component={CreateNote}/>
-        <Route path="/create" component={CreateNote}/>
+        <Route path="/"  exact component={home}/>        
         <Route path="/user" component={CreateUser}/> 
 
     </Router>

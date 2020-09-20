@@ -3,10 +3,11 @@ const router = Router();
 
 const { getNotes, createNotes, getNote, updateNote, deleteNote } = require('../controllers/notes.controller');
 
-router.route('/')
+router.route('/todas')
         .get(getNotes)
-        .post(createNotes);
+        
 router.route('/:id')
+        .post(createNotes)
         .get(getNote)
         .put(updateNote)
         .delete(deleteNote);

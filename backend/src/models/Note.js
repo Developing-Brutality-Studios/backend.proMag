@@ -7,6 +7,7 @@ const noteSchema = new Schema({
         required: true
     },
     author: String,
+    grupo:[],
     date: {
         type: Date,
         default: Date.now
