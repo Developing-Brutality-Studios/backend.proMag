@@ -15,12 +15,17 @@ notesCtrl.createNotes = async (req, res) => {
      const {title, content, date, grupo } = req.body;
      const newNote = new Note({title, content, date, author, grupo});     
      await newNote.save();
-    res.json({message: 'Notes save'})
+    res.json({
+        message: 'Notes save',
+        err: false
+    })
 }
 
 notesCtrl.getNote = async (req, res) => {
-    const note = await Note.findById(req.params.id);    
-    res.json({note});
+    const aut =  await jwt.verify(req.params.id, process.env.ACCESS_TOKEN_SECRET)
+    const author = aut.id
+    const note = await Note.find({ author: author});                                    
+    res.json(note);
 };
 
 notesCtrl.updateNote = async (req, res) => {
