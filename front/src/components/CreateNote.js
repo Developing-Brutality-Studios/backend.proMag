@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label } from 'reactstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
+import { format } from 'timeago.js'
 const token = localStorage.getItem("Authorized")  
+
 
 export default class CreateNote extends Component {
     
@@ -12,7 +16,7 @@ export default class CreateNote extends Component {
             title: '',
             content: '',
             grupo:'',
-            date: '',
+            date: new Date(),
             notes: []
         }
                
@@ -41,12 +45,16 @@ export default class CreateNote extends Component {
             [e.target.name]: e.target.value
         })             
     }
+    onChangeDate = date => {
+        this.setState({ date });
+    }
     activarM = (e) => {
         e.preventDefault();
         this.setState({ modal: !this.state.modal })
     }
     async componentDidMount(){
             this.getNotes();
+            
             
     }
     getNotes =  async() => {
@@ -67,27 +75,25 @@ export default class CreateNote extends Component {
         }
 
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col col-lg-2">
+            <div className="container ">
+                <div className="row ">
+                    <div className="col-md-auto">
                       <button type="submit" onClick={this.activarM}>Nueva Nota</button>
                     </div>
-                    <div className="col" >
-                        <div className="container">
+                    <div className="col row " >                        
                         {
                             this.state.notes.map(note => (
                                 <div className="col-md-4 p-2" key={note._id}>
                                     <div className="card">
-                                        <div className="card-header d-flex justify-content-between">
-                                            <h5>{note.title}</h5>
-                                            
+                                        <div className="card-header  d-flex justify-content-between  ">
+                                            <h5>{note.title}</h5>                                            
                                         </div>
                                         <div className="card-body">
                                             <p>
                                                 {note.content}
                                             </p>
                                             <p>
-                                                {note.date}
+                                              {format(note.date, "es")}
                                             </p>                                   
                                         </div>
                                         <div className="card-footer">
@@ -99,7 +105,7 @@ export default class CreateNote extends Component {
                                 </div>
                                 ))
                             }
-                        </div>
+                        
                            
                     </div>
 
@@ -145,16 +151,12 @@ export default class CreateNote extends Component {
                                     onChange={this.onInputChange}
                                 />
                             </FormGroup>
-                            <FormGroup noValidate className="form-group">
-                                <Label htmlFor="date">Date</Label>
-                                <input
-                                    className="form-control-file"
-                                    placeholder="Date"
-                                    type="date"
-                                    name="date"
-                                    noValidate
-                                    onChange={this.onInputChange}
-                                />
+                            <FormGroup noValidate >                                
+                                <DatePicker 
+                                    className="form-control"
+                                    selected={this.state.date}
+                                    onChange={this.onChangeDate}
+                                     />
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
